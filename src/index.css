@@ -1,0 +1,143 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/instrument-sans';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+
+/* Design tokens, sampled from the ApiArmor UI screens. */
+@theme {
+  --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-canvas: #f0eee9;
+  --color-surface: #faf9f6;
+  --color-surface-2: #f4f2ed;
+  --color-line: #e2ded5;
+  --color-line-strong: #cfcac0;
+  --color-ink: #1d2320;
+  --color-ink-2: #4a524e;
+  --color-ink-3: #6c7370;
+
+  --color-night: #1f2925;
+  --color-night-2: #2a3530;
+  --color-night-3: #3a4842;
+  --color-night-ink: #e8ece9;
+
+  --color-pine: #3b5f50;
+  --color-pine-dark: #2e4b3f;
+  --color-pine-soft: #dce9e1;
+  --color-pine-ink: #1f4436;
+
+  --color-brass: #cfb06a;
+  --color-brass-dark: #b8974c;
+  --color-brass-soft: #ede3c8;
+  --color-brass-ink: #6b5418;
+
+  --color-crit: #8b1e3f;
+  --color-crit-soft: #f6dfe5;
+  --color-high: #93400f;
+  --color-high-soft: #f7e6d8;
+  --color-med: #6b5418;
+  --color-med-soft: #f3ecd0;
+  --color-low: #4f5652;
+  --color-low-soft: #e9e7e1;
+
+  --color-caution: #8d4a0b;
+  --color-caution-soft: #f5ecd3;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Brass focus ring, always visible for keyboard users (TC-A-01). */
+  :focus-visible {
+    outline: 2px solid var(--color-brass-dark);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  [role='radio'],
+  [role='tab'],
+  select {
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--color-brass-soft);
+  }
+}
+
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink placeholder:text-ink-3 transition-colors;
+  }
+  .input:focus,
+  .select:focus {
+    @apply border-pine outline-none ring-2 ring-pine/20;
+  }
+  .select {
+    @apply w-full appearance-none rounded-lg border border-line-strong bg-white bg-no-repeat px-3.5 py-2.5 pr-9 text-[15px] text-ink transition-colors;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%231d2320' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right 0.8rem center;
+  }
+  .label {
+    @apply mb-1.5 block text-sm text-ink-2;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold tracking-[0.08em] text-ink-2 uppercase;
+  }
+  .link {
+    @apply font-medium text-pine-ink underline decoration-pine/40 underline-offset-4 hover:decoration-pine;
+  }
+  .code-block {
+    @apply overflow-auto bg-night p-5 font-mono text-[13px] leading-[1.7] text-night-ink;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.animate-toast-in {
+  animation: toast-in 0.18s ease-out;
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.2s ease-in-out infinite;
+}
